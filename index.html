@@ -250,12 +250,12 @@ function renderAbout() {
     <li>信じることについては、すすめも、否定もしません。ご利益や霊験は「お寺はこう伝えている」と書くだけです。土地や場所を診断しません。</li>
     <li>会話は保存しません。記録（来た日・謎の答え）は、この端末の中だけにあり、外へ送りません。位置は合図にだけ使い、履歴を残しません。</li>
     <li>印：◎ 公式に書いてあること／◐ 計算した値・目安を含む／伝えは「〜と伝えられる」と書きます。</li>
-    <li>碧の姿：© mitsulab（VRoid Studio で作成した VRM・白磁 案A）。このアプリの中で碧を表示するためだけに置いています。ファイルを取り出して、ほかで使ったり配ったりしないでください。表示：three.js・@pixiv/three-vrm（MIT）。</li>
+    <li>碧の姿：© mitsulab（VRoid Studio で作成した VRM・翠）。このアプリの中で碧を表示するためだけに置いています。ファイルを取り出して、ほかで使ったり配ったりしないでください。表示：three.js・@pixiv/three-vrm（MIT）。</li>
 </ul>
     <h3 style="font-size:14px;margin-top:8px">地図と高さ</h3>
     <p style="font-size:13px">地図：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">出典：国土地理院（地理院タイル 淡色地図）</a>。標高：国土地理院 標高 API。地図の点線は、札所を番号の順に直線で結んだもので、巡礼の道ではありません。表示：Leaflet（BSD-2）。お寺の写真・公式の地図の線・御詠歌は、権利を確かめていないので取り込んでいません。</p>
     <p><button id="wipe" style="border:1px solid var(--line);background:none;border-radius:8px;padding:2px 10px;font-size:12px">この端末の記録を消す</button></p>
-    <p class="src">試作（mitsulab ／ Feel site シリーズ）。確かめた日：${esc(FUD.checked)}。</p>`;
+    <p class="src">試作（mitsulab ／ 森羅道中）。確かめた日：${esc(FUD.checked)}。</p>`;
   $("wipe").onclick = () => { if (confirm("この端末の記録（来た日・謎の答え）を消しますか？")) { REC = { visits: {}, nazo: {}, pos: {}, migrated: 1 }; save(); renderAll(); } };
 }
 function renderAll() { renderTop(); renderCard(); renderList(); renderAbout(); drawMap(); }
@@ -316,7 +316,7 @@ $("sfOk").onclick = () => { $("safety").classList.remove("on"); $("walkInfo").te
   watch = navigator.geolocation.watchPosition(onPos, e => $("walkInfo").textContent = "位置が取れませんでした：" + e.message, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }); };
 $("modeBar").onclick = e => { const b = e.target.closest("button"); b && setMode(b.dataset.m); };
 
-// ---- 碧の 3D（白磁 案A・軽い版 web/aoi.vrm）。読めなくても札と言葉は動く
+// ---- 碧の 3D（翠・軽い版 web/aoi.vrm）。読めなくても札と言葉は動く
 let aoiState = "loading";
 const box = $("aoi3d");
 let hidden = false; try { hidden = localStorage.getItem("ftw-fudasho-aoi-off") === "1"; } catch {}

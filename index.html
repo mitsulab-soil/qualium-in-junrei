@@ -169,11 +169,10 @@ function cardOf(c, s) {
   const h = [s.honzon && `本尊は${s.honzon}`, s.shu && `宗派は${s.shu}`].filter(Boolean).join("、");
   const k2 = [s.kaiki && `開基は${s.kaiki}`, s.soritsu && `創立は${s.soritsu}`].filter(Boolean).join("、");
   return { full: false, src: [s.src],
-    aoi: `${c.short} ${s.label}、${s.name}。わたしが話せるのは、いまは名簿に書いてあることと、地面の高さだけです。`,
+    aoi: `${c.short} ${s.label}、${s.name}。`,   /* 2026-10-07 11 人の検証 P1：「いまは〜だけ」「まだ」の言い方（準備中の言い換え）はしない。できている話だけ */
     look: "まず、まわりの地形を見てください。上り坂か、下り坂か。川や水の音はするか。",
     layers: { nature: "ここは標高 {elev} m（{rise}。この輪の" + "{rank}）。",
-      history: (h || k2) ? `公式の案内によると、${[h, k2].filter(Boolean).join("。")}${k2 ? "と伝わります" : ""}。${s.chokyo ? `長享の番付では${s.chokyo}でした。` : ""}` : "この札所の名簿の情報は、まだ足りていません。",
-      culture: "この札所の、地名や伝えの話は、公式のページで確かめてください。" },
+      history: (h || k2) ? `公式の案内によると、${[h, k2].filter(Boolean).join("。")}${k2 ? "と伝わります" : ""}。${s.chokyo ? `長享の番付では${s.chokyo}でした。` : ""}` : "" },
     marks: { nature: "◐", history: "◎", culture: "" },
     relook: "もう一度、まわりを見てください。地図の上の点が、目の前の場所になりました。",
     aoi_q: "ここで、いちばん古そうに見えるものは何ですか。" };
@@ -198,14 +197,13 @@ function renderCard() {
   const c = CI[circ], s = cur(), cd = cardOf(c, s);
   const also = (s.also || []).map(k => { const [ci, no] = k.split(":"), t = CI[ci].stations.find(x => String(x.no) === no); return `<a href="#" data-go="${k}">${esc(CI[ci].short)} ${esc(t.label)}</a>`; });
   const meta = [["山号", s.sango], ["本尊", s.honzon], ["宗派", s.shu], ["住所", s.addr || (s.addr_gsi ? `${s.addr_gsi} あたり（地理院の逆ジオコーダ）` : "")], ["位置", `${s.ll_q} ${s.ll_src}`], ["標高", s.elev != null ? `${s.elev} m（国土地理院 標高 API・◐）` : ""], ["記録", visits(s.key) ? `来た ${visits(s.key)} 回（${REC.visits[s.key].slice(-1)[0]} が最後）` : "まだ"]].filter(x => x[1]);
-  const L = cd.layers, nz = cd.nazo, na = REC.nazo[s.key];
+  const L = cd.layers, nz = cd.nazo, na = REC.nazo[s.key]; if (!L[layer]) layer = "nature";   /* 話の無い層のボタンは出さない */
   let body = "";
   if (step === "look") body = `<p>${esc(cd.look)}</p>`;
-  else if (step === "talk") body = `<div class="layers" role="group" aria-label="層">${[["nature", "地形・水"], ["history", "歴史"], ["culture", "文化・伝え"]].map(([k, t]) => `<button data-l="${k}" aria-pressed="${k === layer}">${t}</button>`).join("")}</div><p>${esc(fill(c, s, L[layer]))}</p><p class="src">${cd.marks?.[layer] ? esc(MARK[cd.marks[layer]]) : ""}</p>`;
+  else if (step === "talk") body = `<div class="layers" role="group" aria-label="層">${[["nature", "地形・水"], ["history", "歴史"], ["culture", "文化・伝え"]].filter(([k]) => L[k]).map(([k, t]) => `<button data-l="${k}" aria-pressed="${k === layer}">${t}</button>`).join("")}</div><p>${esc(fill(c, s, L[layer]))}</p><p class="src">${cd.marks?.[layer] ? esc(MARK[cd.marks[layer]]) : ""}</p>`;
   else body = `<p>${esc(cd.relook)}</p><p style="color:var(--aoi)">碧：${esc(cd.aoi_q)}</p>`;
   $("card").innerHTML = `
     <div class="head"><span class="no">${esc(c.name)} ${esc(s.label)}</span><h2>${esc(s.name)}</h2></div>
-    ${cd.full ? "" : `<span class="prep">名簿と高さの札</span>`}
     ${also.length ? `<div class="also">この寺は、${also.join("・")} の札所でもあります。</div>` : ""}
     <dl class="meta">${meta.map(([a, b]) => `<dt>${a}</dt><dd>${esc(b)}</dd>`).join("")}</dl>
     ${(s.note || []).length ? `<div class="note">要確認：${esc(s.note.join("／"))}</div>` : ""}
@@ -227,7 +225,7 @@ function renderCard() {
 function talk() {
   const c = CI[circ], s = cur(), cd = cardOf(c, s); voiceKey = `${s.key.replace(":", "_")}_${step === "talk" ? layer : step}`;
   if (step === "look") say(cd.aoi + "　" + cd.look);
-  else if (step === "talk") say(`${{ nature: "地形と水", history: "歴史", culture: "文化と伝え" }[layer]}の話です。${cd.full ? "" : "この札所は、まだ名簿と高さだけです。"}`, cd.marks?.[layer] || "");
+  else if (step === "talk") { if (!cd.layers[layer]) layer = "nature"; say(`${{ nature: "地形と水", history: "歴史", culture: "文化と伝え" }[layer]}の話です。`, cd.marks?.[layer] || ""); }
   else say(cd.aoi_q);
 }
 function renderList() {

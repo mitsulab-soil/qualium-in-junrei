@@ -127,7 +127,7 @@ details ul{padding-left:1.2em;margin:.4em 0;font-size:13.5px}
   <main id="sheet">
     <div class="bubble" aria-live="polite"><span class="who">碧（あおい・AI）</span><span id="say"></span><span class="mk" id="sayMk"></span></div>
     <div id="card"></div>
-    <details id="listBox"><summary id="listSum">この輪の札所の一覧</summary><ul class="list" id="list"></ul><p class="src">● 来た（記録あり）　○ まだ　★ くわしい札あり（ほかは準備中）</p></details>
+    <details id="listBox"><summary id="listSum">この輪の札所の一覧</summary><ul class="list" id="list"></ul><p class="src">● 来た（記録あり）　○ まだ　★ くわしい札あり</p></details>
     <details id="about"><summary>このアプリについて・出典・安全とマナー</summary><div id="aboutBody"></div></details>
   </main>
 </div>
@@ -173,7 +173,7 @@ function cardOf(c, s) {
     look: "まず、まわりの地形を見てください。上り坂か、下り坂か。川や水の音はするか。",
     layers: { nature: "ここは標高 {elev} m（{rise}。この輪の" + "{rank}）。",
       history: (h || k2) ? `公式の案内によると、${[h, k2].filter(Boolean).join("。")}${k2 ? "と伝わります" : ""}。${s.chokyo ? `長享の番付では${s.chokyo}でした。` : ""}` : "この札所の名簿の情報は、まだ足りていません。",
-      culture: "この札所の、地名や伝えの話は、まだ準備中です。公式のページで確かめてください。" },
+      culture: "この札所の、地名や伝えの話は、公式のページで確かめてください。" },
     marks: { nature: "◐", history: "◎", culture: "" },
     relook: "もう一度、まわりを見てください。地図の上の点が、目の前の場所になりました。",
     aoi_q: "ここで、いちばん古そうに見えるものは何ですか。" };
@@ -205,7 +205,7 @@ function renderCard() {
   else body = `<p>${esc(cd.relook)}</p><p style="color:var(--aoi)">碧：${esc(cd.aoi_q)}</p>`;
   $("card").innerHTML = `
     <div class="head"><span class="no">${esc(c.name)} ${esc(s.label)}</span><h2>${esc(s.name)}</h2></div>
-    ${cd.full ? "" : `<span class="prep">くわしい札は準備中（名簿と高さだけ）</span>`}
+    ${cd.full ? "" : `<span class="prep">名簿と高さの札</span>`}
     ${also.length ? `<div class="also">この寺は、${also.join("・")} の札所でもあります。</div>` : ""}
     <dl class="meta">${meta.map(([a, b]) => `<dt>${a}</dt><dd>${esc(b)}</dd>`).join("")}</dl>
     ${(s.note || []).length ? `<div class="note">要確認：${esc(s.note.join("／"))}</div>` : ""}
@@ -253,7 +253,7 @@ function renderAbout() {
     <li>会話は保存しません。記録（来た日・謎の答え）は、この端末の中だけにあり、外へ送りません。位置は合図にだけ使い、履歴を残しません。</li>
     <li>印：◎ 公式に書いてあること／◐ 計算した値・目安を含む／伝えは「〜と伝えられる」と書きます。</li>
     <li>碧の姿：© mitsulab（VRoid Studio で作成した VRM・白磁 案A）。このアプリの中で碧を表示するためだけに置いています。ファイルを取り出して、ほかで使ったり配ったりしないでください。表示：three.js・@pixiv/three-vrm（MIT）。</li>
-    <li>碧の声：準備中（声の利用条件を確かめてから）。</li></ul>
+</ul>
     <h3 style="font-size:14px;margin-top:8px">地図と高さ</h3>
     <p style="font-size:13px">地図：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">出典：国土地理院（地理院タイル 淡色地図）</a>。標高：国土地理院 標高 API。地図の点線は、札所を番号の順に直線で結んだもので、巡礼の道ではありません。表示：Leaflet（BSD-2）。お寺の写真・公式の地図の線・御詠歌は、権利を確かめていないので取り込んでいません。</p>
     <p><button id="wipe" style="border:1px solid var(--line);background:none;border-radius:8px;padding:2px 10px;font-size:12px">この端末の記録を消す</button></p>

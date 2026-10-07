@@ -1,4 +1,4 @@
-# Aoi Walk 巡礼（Aoi Walk: Junrei）── 坂東・秩父・江戸の札所を歩く（試作）
+# 森羅道中 巡礼（Aoi Walk: Junrei）── 坂東・秩父・江戸の札所を歩く（試作）
 
 > 2026-10-05 に名前を改めました（旧名《Qualium in Junrei》）。Qualium は、この作品の考え方の名前として使います。
 

@@ -6,7 +6,7 @@
 <title>森羅道中 巡礼（試作）</title>
 <meta name="tdm-reservation" content="1">
 <meta name="description" content="坂東・秩父・江戸の観音札所を、地形と歴史と文化を重ねて歩く。案内は碧（あおい・AI）。試作。">
-<meta property="og:title" content="森羅道中 巡礼（Aoi Walk: Junrei）">
+<meta property="og:title" content="森羅道中 巡礼（Junrei Dochu）">
 <meta property="og:description" content="坂東・秩父・江戸の観音札所を、地形と歴史と文化を重ねて歩く。案内は碧（あおい・AI）。試作。">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script type="importmap">
@@ -117,6 +117,7 @@ details ul{padding-left:1.2em;margin:.4em 0;font-size:14px}
 <meta name="theme-color" content="#03060f">
 </head>
 <body data-mode="home">
+<script src="loader/loader.js" data-title="森羅道中 巡礼" data-en="Junrei Dochu" data-icon="favicon/icon.svg" data-max="12000"></script>   <!-- mitsulab 共通の読み込み画面（01_経営/03_対外書類/12_ブランド/loader・2026-10-09） -->
 <header id="top">
   <div class="row"><h1>森羅道中 巡礼<small>坂東・秩父・江戸の札所を歩く（試作）</small></h1><button id="menuBtn" aria-controls="about">このアプリについて</button></div>
   <div class="tabs" id="tabs" role="group" aria-label="札所の輪を選ぶ"></div>
@@ -439,6 +440,7 @@ if (!hidden) (window.requestIdleCallback || (f => setTimeout(f, 300)))(() => sta
 
 // ---- はじめ
 renderAll(); fitAll(); select(idx, true);
+requestAnimationFrame(() => requestAnimationFrame(() => window.MLLoader?.done()));   // 地図と札が描けたら、読み込み画面を消す
 say(`わたしは碧（あおい）。AI の案内役です。坂東・秩父・江戸の三つの札所の輪を、一つの地図で案内します。お寺のことは公式の案内に書いてあることだけを話し、信じることについては決めつけません。上の「${C.map(c => c.short).join("・")}」で輪を切りかえられます。`);
 $("sndBtn").onclick = e => { e.stopPropagation(); setSnd(!sndOn); }; setSnd(sndOn);
 /* 声の書き出し用：札所ごとの、碧が話す文（鍵と文）。画面の操作には使わない */
